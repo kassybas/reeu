@@ -1,7 +1,6 @@
 package world
 
 import (
-	"fmt"
 	"sync"
 
 	"github.com/kassybas/reeu/models/country"
@@ -14,11 +13,8 @@ type World struct {
 
 func Init() *World {
 	w := new(World)
-	//w.ym1WG = new(sync.WaitGroup)
 	w.Countries = make([]country.Country, 1)
-	w.Countries[0] = country.NewCountry()
-	// w.Countries[1].Money = 12
-	// w.Countries[1].Name = "Hungary"
+	w.Countries[0] = country.NewCountry("data/sweeden.yaml")
 	return w
 }
 
@@ -33,11 +29,11 @@ func (w *World) StartYM1Update() {
 		go func() {
 			defer w.ym1WG.Done()
 			w.Countries[y].CollectTaxes()
+			w.Countries[y].CollectProduction()
 		}()
 	}
 }
 
 func (w *World) FinishYM1Update() {
-	fmt.Println("Were waiting")
 	w.ym1WG.Wait()
 }

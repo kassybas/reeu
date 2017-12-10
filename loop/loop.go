@@ -43,16 +43,14 @@ func StartLoop() {
 			triggerYM1(w)
 		}
 		if cur.Day() == 10 {
-			fmt.Printf(" - ")
-			fmt.Println(cur.Date())
 			triggerYM10(w)
-			fmt.Printf(w.GetStats(0))
 		}
 
 		if cur.Month() == 1 && cur.Day() == 1 {
 			fmt.Println("===== [[ Yearly Pass ]] =====")
+			fmt.Printf(w.GetStats(0))
 			reader.ReadString('\n')
 		}
 	}
-
+	fmt.Printf(w.GetStats(0))
 }

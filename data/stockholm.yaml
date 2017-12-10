@@ -1,0 +1,7 @@
+Name: "Stockholm"
+BaseTax: 8.0
+LocalAutonomy: 0.1
+LocalTaxIncome: 0
+LocalTaxIncomeEfficiency: 1.4
+ProductionValue: 1.2
+MarketPrice: 4.0
