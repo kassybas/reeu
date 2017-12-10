@@ -1,7 +1,7 @@
 package main
 
 import "fmt"
-import "reeu/loop"
+import "github.com/kassybas/reeu/loop"
 
 func main() {
    fmt.Println("hello world")
