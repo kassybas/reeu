@@ -1,6 +1,7 @@
 package resource
 
 import (
+	"fmt"
 	"io/ioutil"
 	"log"
 
@@ -23,6 +24,7 @@ type Resource struct {
 type Modifier struct {
 	Name   string  `yaml:"Name"`
 	Amount float64 `yaml:"Amount"`
+	Group  string  `yaml:"Group"`
 }
 
 // NewResource factory method to create a New Resource
@@ -49,7 +51,6 @@ func LoadResource(path string) Resource {
 	for _, m := range c.ModifiersPath {
 		c.Modifiers = append(c.Modifiers, loadModifier(m))
 	}
-
 	c.Parts = make([]Resource, len(c.PartsPath))
 	for i, p := range c.PartsPath {
 		c.Parts[i] = LoadResource(p)
@@ -70,6 +71,27 @@ func loadModifier(path string) Modifier {
 	return *m
 }
 
+func (r *Resource) getModifierProduct() float64 {
+	mod := 1.0
+	groups := make(map[string]float64)
+	for _, m := range r.Modifiers {
+		if m.Group == "" {
+			mod *= m.Amount
+			fmt.Println(m)
+		} else {
+			groups[m.Group] += m.Amount
+		}
+	}
+	// The product of the modifier groups
+	for _, value := range groups {
+		// When "Group" key is present, the values are not in _absolute_ percentage (eg.: 1.15 for 115%) but rather _relative_ increase (0.15 for +15%)
+		// This has to be compensated at the end for the correct result (so +15% is not decreasing the actual value)
+		value += 1.0
+		mod *= value
+	}
+	return mod
+}
+
 // CollectMonthly gives the monthly amount of collectables
 func (r *Resource) CollectMonthly() float64 {
 	return r.Collect() / 12
@@ -78,11 +100,11 @@ func (r *Resource) CollectMonthly() float64 {
 // Collect resource periodically
 func (r *Resource) Collect() float64 {
 	sum := r.Flat
+	// Get the parts
 	for _, p := range r.Parts {
 		sum += p.Collect()
 	}
-	for _, m := range r.Modifiers {
-		sum *= m.Amount
-	}
-	return sum
+	mod := r.getModifierProduct()
+
+	return sum * mod
 }

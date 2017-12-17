@@ -6,7 +6,7 @@ Modifiers:
   - Name: "Stockholm :: Production Modifier :: Goods Produced Modifiers"
     Amount: 0.96
   - Name: "Stockholm :: Production Modifier :: Production Efficiency"
-    Amount: 2.15
+    Amount: 1.15
 ModifierPath:
   - "data/autonomy/stockholm.yaml"
 PartsPath:

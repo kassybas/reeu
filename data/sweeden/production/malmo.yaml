@@ -5,10 +5,23 @@ Modifiers:
     Amount: 2.6
   - Name: "Malmö :: Production Modifier :: Goods Produced Modifiers"
     Amount: 0.96
-  - Name: "Malmö :: Production Modifier :: Production Efficiency"
-#   Group: "Production Efficiency"
-    Amount: 2.15
+  - Group: "Production Efficiency"
+    Name: "Malmö :: Production Modifier :: Production Efficiency :: From Technology"
+    Amount: 0.15
+  - Group: "Production Efficiency"
+    Name: "Malmö :: Production Modifier :: Production Efficiency :: Government Form and Rank"
+    Amount: 0.10
+  - Group: "Production Efficiency"
+    Name: "Malmö :: Production Modifier :: Production Efficiency :: Ahead of Time in Administrative Tech"
+    Amount: 0.20
+  - Group: "Production Efficiency"
+    Name: "Malmö :: Production Modifier :: Production Efficiency :: Zunft"
+    Amount: 0.10
+  - Group: "Production Efficiency"
+    Name: "Malmö :: Production Modifier :: Production Efficiency :: Smithian Economics"
+    Amount: 0.10
 ModifierPath:
   - "data/autonomy/malmo.yaml"
+  - "data/buildings/workshop.yaml"
 PartsPath:
   - "data/market_prices/cloth.yaml"
