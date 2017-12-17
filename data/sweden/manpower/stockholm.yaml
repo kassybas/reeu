@@ -1,0 +1,8 @@
+Name: "Stockholm :: Manpower"
+Flat: 7.0
+Modifiers:
+  - Name: "Stockholm :: :: Manpower Modifier :: Base"
+    Amount: 250
+ModifierPath:
+  - "autonomy/stockholm.yaml"
+PartsPath: []

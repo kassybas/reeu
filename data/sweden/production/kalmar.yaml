@@ -1,0 +1,8 @@
+Name: "Kalmar :: Production"
+Flat: 4.0
+Modifiers:
+  - Name: "Sweden :: Production Efficiency :: Gold"
+    Amount: 1.0
+ModifierPath:
+  - "autonomy/kalmar.yaml"
+PartsPath: []

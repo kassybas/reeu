@@ -6,3 +6,4 @@ Modifiers:
 PartsPath:
   - "tax/malmo.yaml"
   - "tax/stockholm.yaml"
+  - "tax/kalmar.yaml"

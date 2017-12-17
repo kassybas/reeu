@@ -1,0 +1,8 @@
+Name: "Malmö :: Manpower"
+Flat: 2.0
+Modifiers:
+  - Name: "Malmö :: Manpower Modifier :: Base"
+    Amount: 250
+ModifierPath:
+  - "autonomy/malmo.yaml"
+PartsPath: []

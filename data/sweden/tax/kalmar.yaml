@@ -1,0 +1,8 @@
+Name: "Kalmar :: Tax"
+Flat: 2.0
+Modifiers:
+  - Name: "Kalmar :: Tax Modifier :: Good Year"
+    Amount: 1.1
+ModifierPath:
+  - "autonomy/kalmar.yaml"
+PartsPath: []

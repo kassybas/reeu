@@ -1,0 +1,8 @@
+Name: "Kalmar :: Manpower"
+Flat: 3.0
+Modifiers:
+  - Name: "Kalmar :: Manpower Modifier :: Base"
+    Amount: 250
+ModifierPath:
+  - "autonomy/kalmar.yaml"
+PartsPath: []

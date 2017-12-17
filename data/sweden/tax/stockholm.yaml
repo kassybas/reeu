@@ -1,4 +1,4 @@
-Name: "Stockholm Tax"
+Name: "Stockholm :: Tax"
 Flat: 5.0
 Modifiers:
   - Name: "Stockholm :: Tax Modifier :: Capital"

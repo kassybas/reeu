@@ -1,0 +1,9 @@
+Name: "Sweden :: Manpower"
+Flat: 0.0
+Modifiers:
+  - Name: "Sweden :: Manpower Efficiency :: Feudal Monarchy"
+    Amount: 1.1
+PartsPath:
+  - "manpower/malmo.yaml"
+  - "manpower/stockholm.yaml"
+  - "manpower/kalmar.yaml"
