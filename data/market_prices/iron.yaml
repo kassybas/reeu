@@ -1,0 +1,6 @@
+Name: "Iron Market Price"
+Flat: 3.0
+Modifiers:
+  - Name: "Iron Market Price :: Iron Working"
+    Amount: 1.5
+PartsPath: []

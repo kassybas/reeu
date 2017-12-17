@@ -57,5 +57,3 @@ func (c *Country) GetStat() string {
 		fmt.Sprintf("\nMoney: %.2f", c.Money) +
 		"\n---\n"
 }
-
-// TODO: modifiers for all, buildings, technology

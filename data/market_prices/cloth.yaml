@@ -1,0 +1,6 @@
+Name: "Cloth Market Price"
+Flat: 3.0
+Modifiers:
+  - Name: "Cloth Market Price :: New Draperies"
+    Amount: 1.2
+PartsPath: []

@@ -1,0 +1,14 @@
+Name: "Malmö :: Production"
+Flat: 0.0
+Modifiers:
+  - Name: "Malmö :: Production Modifier :: Province Production"
+    Amount: 2.6
+  - Name: "Malmö :: Production Modifier :: Goods Produced Modifiers"
+    Amount: 0.96
+  - Name: "Malmö :: Production Modifier :: Production Efficiency"
+#   Group: "Production Efficiency"
+    Amount: 2.15
+ModifierPath:
+  - "data/autonomy/malmo.yaml"
+PartsPath:
+  - "data/market_prices/cloth.yaml"

@@ -1,0 +1,8 @@
+Name: "Stockholm Tax"
+Flat: 5.0
+Modifiers:
+  - Name: "Stockholm :: Tax Modifier :: Capital"
+    Amount: 1.05
+  - Name: "Stockholm :: Tax Modifier :: Autonomy"
+    Amount: 1.00
+PartsPath: []

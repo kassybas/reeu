@@ -1,0 +1,8 @@
+Name: "Malmö :: Tax"
+Flat: 2.0
+Modifiers:
+  - Name: "Malmö :: Tax Modifier :: Good Year"
+    Amount: 1.1
+  - Name: "Malmö :: Tax Modifier :: Autonomy"
+    Amount: 0.75
+PartsPath: []
