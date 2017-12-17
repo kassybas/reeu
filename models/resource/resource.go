@@ -1,7 +1,6 @@
 package resource
 
 import (
-	"fmt"
 	"io/ioutil"
 	"log"
 
@@ -38,8 +37,8 @@ func NewResource(name string, parts []Resource, modifiers []Modifier, flat float
 }
 
 // LoadResource from a file
-func LoadResource(path string) Resource {
-	yamlFile, err := ioutil.ReadFile(path)
+func LoadResource(basePath, path string) Resource {
+	yamlFile, err := ioutil.ReadFile(basePath + path)
 	if err != nil {
 		log.Printf("yamlFile.Get err   #%v ", err)
 	}
@@ -49,17 +48,17 @@ func LoadResource(path string) Resource {
 		log.Fatalf("Unmarshal: %v", err)
 	}
 	for _, m := range c.ModifiersPath {
-		c.Modifiers = append(c.Modifiers, loadModifier(m))
+		c.Modifiers = append(c.Modifiers, loadModifier(basePath, m))
 	}
 	c.Parts = make([]Resource, len(c.PartsPath))
 	for i, p := range c.PartsPath {
-		c.Parts[i] = LoadResource(p)
+		c.Parts[i] = LoadResource(basePath, p)
 	}
 	return *c
 }
 
-func loadModifier(path string) Modifier {
-	yamlFile, err := ioutil.ReadFile(path)
+func loadModifier(basePath, path string) Modifier {
+	yamlFile, err := ioutil.ReadFile(basePath + path)
 	if err != nil {
 		log.Printf("yamlFile.Get err   #%v ", err)
 	}
@@ -77,7 +76,6 @@ func (r *Resource) getModifierProduct() float64 {
 	for _, m := range r.Modifiers {
 		if m.Group == "" {
 			mod *= m.Amount
-			fmt.Println(m)
 		} else {
 			groups[m.Group] += m.Amount
 		}

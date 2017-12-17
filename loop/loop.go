@@ -17,16 +17,16 @@ type loopConfig struct {
 func setupConfig() loopConfig {
 	return loopConfig{
 		startDate: time.Date(2005, 1, 17, 0, 0, 0, 0, time.UTC),
-		endDate:   time.Date(2006, 12, 20, 0, 0, 0, 0, time.UTC),
+		endDate:   time.Date(2008, 12, 20, 0, 0, 0, 0, time.UTC),
 	}
 }
 
 func triggerYM1(w *world.World) {
-	w.StartYM1Update()
+	w.StartBeginMonthUpdate()
 }
 
 func triggerYM10(w *world.World) {
-	w.FinishYM1Update()
+	w.FinishBeginMonthpdate()
 }
 
 func StartLoop() {
@@ -38,8 +38,6 @@ func StartLoop() {
 
 	for cur := lc.startDate; cur.Before(lc.endDate); cur = cur.AddDate(0, 0, 1) {
 		if cur.Day() == 1 {
-			fmt.Printf(" - ")
-			fmt.Println(cur.Date())
 			triggerYM1(w)
 		}
 		if cur.Day() == 10 {
@@ -48,7 +46,7 @@ func StartLoop() {
 
 		if cur.Month() == 1 && cur.Day() == 1 {
 			fmt.Println("===== [[ Yearly Pass ]] =====")
-			fmt.Printf(w.GetStats(0))
+			fmt.Printf(w.GetAllStats())
 			reader.ReadString('\n')
 		}
 	}

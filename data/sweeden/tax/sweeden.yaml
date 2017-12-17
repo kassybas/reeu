@@ -1,8 +1,0 @@
-Name: "Sweeden Tax"
-Flat: 0.0
-Modifiers:
-  - Name: "Sweeden :: Tax Efficiency :: Advisor"
-    Amount: 1.05
-PartsPath:
-  - "data/sweeden/tax/malmo.yaml"
-  - "data/sweeden/tax/stockholm.yaml"

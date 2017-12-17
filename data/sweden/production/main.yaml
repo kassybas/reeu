@@ -1,0 +1,8 @@
+Name: "Sweden :: Production"
+Flat: 0.0
+Modifiers:
+  - Name: "Sweden :: Production Efficiency :: National Modifiers"
+    Amount: 1.0
+PartsPath:
+  - "production/malmo.yaml"
+  - "production/stockholm.yaml"

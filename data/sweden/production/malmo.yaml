@@ -21,7 +21,7 @@ Modifiers:
     Name: "Malmö :: Production Modifier :: Production Efficiency :: Smithian Economics"
     Amount: 0.10
 ModifierPath:
-  - "data/autonomy/malmo.yaml"
-  - "data/buildings/workshop.yaml"
+  - "autonomy/malmo.yaml"
+  - "../buildings/workshop.yaml"
 PartsPath:
-  - "data/market_prices/cloth.yaml"
+  - "../market_prices/cloth.yaml"

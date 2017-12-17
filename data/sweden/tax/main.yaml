@@ -1,0 +1,8 @@
+Name: "Sweden Tax"
+Flat: 0.0
+Modifiers:
+  - Name: "Sweden :: Tax Efficiency :: Advisor"
+    Amount: 1.05
+PartsPath:
+  - "tax/malmo.yaml"
+  - "tax/stockholm.yaml"
