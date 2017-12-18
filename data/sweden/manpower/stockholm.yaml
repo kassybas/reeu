@@ -3,5 +3,5 @@ Flat: 7.0
 Modifiers: []
 ModifierPath:
   - "autonomy/stockholm.yaml"
-  - "../defaults/manpower_per_development.yaml"
+  - "../globals/manpower_per_development.yaml"
 PartsPath: []

@@ -2,6 +2,6 @@ Name: "Kalmar :: Manpower"
 Flat: 3.0
 Modifiers: []
 ModifierPath:
-  - "../defaults/manpower_per_development.yaml"
+  - "../globals/manpower_per_development.yaml"
   - "autonomy/kalmar.yaml"
 PartsPath: []

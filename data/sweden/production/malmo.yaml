@@ -22,6 +22,6 @@ Modifiers:
     Amount: 1.10
 ModifierPath:
   - "autonomy/malmo.yaml"
-  - "../buildings/workshop.yaml"
+  - "../globals/buildings/workshop.yaml"
 PartsPath:
   - "../market_prices/cloth.yaml"

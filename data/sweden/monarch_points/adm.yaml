@@ -1,0 +1,10 @@
+Name: "Sweeden Admin Points"
+Flat: 3.0 
+PartsPath:
+  - "../globals/advisors/artist.yaml"
+Modifiers: []
+ModifierPath: []
+Max: 1.0 
+MaxPath: "../monarch_points/max_adm.yaml"
+Keep: 1.0
+Stored: 100

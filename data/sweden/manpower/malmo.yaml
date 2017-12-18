@@ -2,6 +2,6 @@ Name: "Malmö :: Manpower"
 Flat: 2.0
 Modifiers: []
 ModifierPath:
-  - "../defaults/manpower_per_development.yaml"
+  - "../globals/manpower_per_development.yaml"
   - "autonomy/malmo.yaml"
 PartsPath: []
