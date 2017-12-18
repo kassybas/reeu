@@ -77,14 +77,13 @@ func (r *Resource) getModifierProduct() float64 {
 		if m.Group == "" {
 			mod *= m.Amount
 		} else {
-			groups[m.Group] += m.Amount
+			// Groups percentages should be added relative (+15% + +20% = +35%      NOT: 115% + 120% = 235% )
+			groups[m.Group] += (m.Amount - 1)
 		}
 	}
-	// The product of the modifier groups
+	// Get the product of the modifier-groups
 	for _, value := range groups {
-		// When "Group" key is present, the values are not in _absolute_ percentage (eg.: 1.15 for 115%) but rather _relative_ increase (0.15 for +15%)
-		// This has to be compensated at the end for the correct result (so +15% is not decreasing the actual value)
-		value += 1.0
+		value += 1
 		mod *= value
 	}
 	return mod
