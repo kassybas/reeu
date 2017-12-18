@@ -1,4 +1,4 @@
 Name: "Sweden"
-Money: 100.0
-Manpower: 12600.0
-MaxManpower: 24000.0
+Resources:
+Money: "resources/money.yaml"
+Manpower: "resources/manpower.yaml"

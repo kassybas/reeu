@@ -1,0 +1,6 @@
+Name: "Sweeden :: Maximum Manpower"
+Flat: 10000
+Modifiers: []
+ModifierPath: []
+PartsPath:
+  - "manpower/main.yaml"

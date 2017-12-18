@@ -1,0 +1,10 @@
+Name: "Sweeden :: Manpower"
+Flat: 
+Modifiers: []
+ModifierPath: []
+PartsPath:
+  - "manpower/main.yaml"
+Max: 1.0
+MaxPath: "resources/max_manpower.yaml"
+Keep: 1.0
+Stored: 12500

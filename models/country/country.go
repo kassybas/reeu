@@ -12,20 +12,17 @@ import (
 )
 
 type Country struct {
-	Name string `yaml:"Name"`
-	Path string
-	//TODO: generalize resource and init values as in source
-	Money      resource.Resource
-	StartMoney float64 `yaml:"Money"`
-
-	Manpower      resource.Resource
-	StartManpower float64 `yaml:"Manpower"`
-	MaxManpower   float64 `yaml:"MaxManpower"`
+	Name         string `yaml:"Name"`
+	basePath     string
+	Money        resource.Resource
+	MoneyPath    string `yaml:"Money"`
+	Manpower     resource.Resource
+	ManpowerPath string `yaml:"Manpower"`
 }
 
 func loadCountry(path string) Country {
 	c := new(Country)
-	c.Path = filepath.Dir(path) + "/"
+	c.basePath = filepath.Dir(path) + "/"
 	yamlFile, err := ioutil.ReadFile(path)
 	if err != nil {
 		log.Printf("yamlFile.Get err   #%v ", err)
@@ -39,13 +36,8 @@ func loadCountry(path string) Country {
 
 func NewCountry(path string) Country {
 	c := loadCountry(path)
-
-	sources := []string{"tax/main.yaml", "production/main.yaml"}
-	c.Money = resource.NewResource("Money", c.Path, sources, c.StartMoney, 0.0)
-
-	sources = []string{"manpower/main.yaml"}
-	c.Manpower = resource.NewResource("Manpower", c.Path, sources, c.StartManpower, c.MaxManpower)
-
+	c.Money = resource.LoadResource(c.basePath, c.MoneyPath)
+	c.Manpower = resource.LoadResource(c.basePath, c.ManpowerPath)
 	return c
 }
 
@@ -56,7 +48,7 @@ func (c *Country) CollectMonthly() {
 
 func (c *Country) GetStat() string {
 	return "---\n" + "Name: " + c.Name +
-		fmt.Sprintf("\nMoney: %.2f", c.Money.Amount) +
-		fmt.Sprintf("\nManpower: %.2f", c.Manpower.Amount) +
+		fmt.Sprintf("\nMoney: %.2f", c.Money.Stored) +
+		fmt.Sprintf("\nManpower: %.2f", c.Manpower.Stored) +
 		"\n---\n"
 }

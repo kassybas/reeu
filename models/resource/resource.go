@@ -1,32 +1,114 @@
 package resource
 
-import "github.com/kassybas/reeu/models/source"
+import (
+	"io/ioutil"
+	"log"
 
+	yaml "gopkg.in/yaml.v2"
+)
+
+// Resource is a generic representation of everything that is collectable (money, points, production, gold, etc)
+// Parts are to be summed: sum(part[i].collect())
+// Modifiers are multiplied with each other and with the sum
+// Flat is the value of the bottom resource. It should be non-zero only if other resources are done
 type Resource struct {
-	Name      string
-	Sources   []source.Source
-	Amount    float64
-	MaxAmount float64
+	Name          string `yaml:"Name"`
+	Parts         []Resource
+	PartsPath     []string   `yaml:"PartsPath"`
+	Modifiers     []Modifier `yaml:"Modifiers"`
+	ModifiersPath []string   `yaml:"ModifierPath"`
+	Flat          float64    `yaml:"Flat"`
+	Keep          float64    `yaml:"Keep"`
+	Max           float64    `yaml:"Max"`
+	MaxPath       string     `yaml:"MaxPath"`
+	MaxResource   *Resource
+	Stored        float64 `yaml:"Stored"`
 }
 
-func NewResource(name string, basePath string, sourcePaths []string, amount, maxAmount float64) Resource {
-	r := new(Resource)
-	r.Name = name
-	r.Amount = amount
-	r.MaxAmount = maxAmount
-	r.Sources = make([]source.Source, len(sourcePaths))
-	for i, s := range sourcePaths {
-		r.Sources[i] = source.LoadSource(basePath, s)
+type Modifier struct {
+	Name   string  `yaml:"Name"`
+	Amount float64 `yaml:"Amount"`
+	Group  string  `yaml:"Group"`
+}
+
+// LoadSource from a file
+func LoadResource(basePath, path string) Resource {
+	yamlFile, err := ioutil.ReadFile(basePath + path)
+	if err != nil {
+		log.Printf("yamlFile.Get err   #%v ", err)
 	}
-	return *r
+	c := new(Resource)
+	err = yaml.Unmarshal(yamlFile, c)
+	if err != nil {
+		log.Fatalf("Unmarshal: %v", err)
+	}
+	for _, m := range c.ModifiersPath {
+		c.Modifiers = append(c.Modifiers, loadModifier(basePath, m))
+	}
+	c.Parts = make([]Resource, len(c.PartsPath))
+	for i, p := range c.PartsPath {
+		c.Parts[i] = LoadResource(basePath, p)
+	}
+	if c.Max != 0 {
+		mr := LoadResource(basePath, c.MaxPath)
+		c.MaxResource = &mr
+		c.Max = c.MaxResource.Collect()
+	}
+	return *c
 }
 
-func (r *Resource) CollectMonthly() {
-	for _, s := range r.Sources {
-		r.Amount += s.CollectMonthly()
-		if r.MaxAmount != 0 && r.MaxAmount < r.Amount {
-			r.Amount = r.MaxAmount
-			break
+func loadModifier(basePath, path string) Modifier {
+	yamlFile, err := ioutil.ReadFile(basePath + path)
+	if err != nil {
+		log.Printf("yamlFile.Get err   #%v ", err)
+	}
+	m := new(Modifier)
+	err = yaml.Unmarshal(yamlFile, m)
+	if err != nil {
+		log.Fatalf("Unmarshal: %v", err)
+	}
+	return *m
+}
+
+func (r *Resource) getModifierProduct() float64 {
+	mod := 1.0
+	groups := make(map[string]float64)
+	for _, m := range r.Modifiers {
+		if m.Group == "" {
+			mod *= m.Amount
+		} else {
+			groups[m.Group] += m.Amount
 		}
 	}
+	// The product of the modifier groups
+	for _, value := range groups {
+		// When "Group" key is present, the values are not in _absolute_ percentage (eg.: 1.15 for 115%) but rather _relative_ increase (0.15 for +15%)
+		// This has to be compensated at the end for the correct result (so +15% is not decreasing the actual value)
+		value += 1.0
+		mod *= value
+	}
+	return mod
+}
+
+// CollectMonthly gives the monthly amount of collectables
+func (r *Resource) CollectMonthly() float64 {
+	inc := r.Collect() / 12
+	r.Stored += inc * r.Keep
+	if r.Max != 0 {
+		r.Max = r.MaxResource.Collect()
+		if r.Max < r.Stored {
+			r.Stored = r.Max
+		}
+	}
+	return inc * (1 - r.Keep)
+}
+
+// Collect resource periodically
+func (r *Resource) Collect() float64 {
+	sum := r.Flat
+	for _, p := range r.Parts {
+		sum += p.Collect()
+	}
+	mod := r.getModifierProduct()
+	return sum * mod
 }

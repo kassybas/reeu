@@ -1,0 +1,9 @@
+Name: "Sweeden :: Money"
+Flat: 0.0
+Modifiers: []
+ModifierPath: []
+PartsPath:
+  - "tax/main.yaml"
+  - "production/main.yaml"
+Keep: 1.0
+Stored: 105.0
