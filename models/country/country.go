@@ -1,10 +1,10 @@
 package country
 
 import (
-	"fmt"
-	"io/ioutil"
 	"log"
 	"path/filepath"
+
+	"github.com/kassybas/reeu/models/common"
 
 	"github.com/kassybas/reeu/models/resource"
 
@@ -12,43 +12,43 @@ import (
 )
 
 type Country struct {
-	Name         string `yaml:"Name"`
-	basePath     string
-	Money        resource.Resource
-	MoneyPath    string `yaml:"Money"`
-	Manpower     resource.Resource
-	ManpowerPath string `yaml:"Manpower"`
+	Name          string `yaml:"Name"`
+	basePath      string
+	ResourcePaths []string `yaml:"ResourcePaths"`
+	Resources     []resource.Resource
 }
 
 func loadCountry(path string) Country {
+	yamlFile := common.LoadFile(path)
 	c := new(Country)
-	c.basePath = filepath.Dir(path) + "/"
-	yamlFile, err := ioutil.ReadFile(path)
-	if err != nil {
-		log.Printf("yamlFile.Get err   #%v ", err)
-	}
-	err = yaml.Unmarshal(yamlFile, c)
+	err := yaml.Unmarshal(yamlFile, c)
 	if err != nil {
 		log.Fatalf("Unmarshal: %v", err)
 	}
+	c.basePath = filepath.Dir(path) + "/"
 	return *c
 }
 
 func NewCountry(path string) Country {
 	c := loadCountry(path)
-	c.Money = resource.LoadResource(c.basePath, c.MoneyPath)
-	c.Manpower = resource.LoadResource(c.basePath, c.ManpowerPath)
+	c.Resources = make([]resource.Resource, len(c.ResourcePaths))
+	for i, p := range c.ResourcePaths {
+		c.Resources[i] = resource.LoadResource(c.basePath, p)
+	}
 	return c
 }
 
 func (c *Country) CollectMonthly() {
-	c.Money.CollectMonthly()
-	c.Manpower.CollectMonthly()
+	for i := range c.Resources {
+		c.Resources[i].CollectMonthly()
+	}
 }
 
 func (c *Country) GetStat() string {
-	return "---\n" + "Name: " + c.Name +
-		fmt.Sprintf("\nMoney: %.2f", c.Money.Stored) +
-		fmt.Sprintf("\nManpower: %.2f", c.Manpower.Stored) +
-		"\n---\n"
+	s := "---\n"
+	s += c.Name + "\n"
+	for _, r := range c.Resources {
+		s += r.GetStat() + "\n"
+	}
+	return s
 }

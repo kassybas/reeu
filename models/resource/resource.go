@@ -1,8 +1,10 @@
 package resource
 
 import (
-	"io/ioutil"
+	"fmt"
 	"log"
+
+	"github.com/kassybas/reeu/models/common"
 
 	yaml "gopkg.in/yaml.v2"
 )
@@ -33,12 +35,9 @@ type Modifier struct {
 
 // LoadSource from a file
 func LoadResource(basePath, path string) Resource {
-	yamlFile, err := ioutil.ReadFile(basePath + path)
-	if err != nil {
-		log.Printf("yamlFile.Get err   #%v ", err)
-	}
+	yamlFile := common.LoadFile(basePath + path)
 	c := new(Resource)
-	err = yaml.Unmarshal(yamlFile, c)
+	err := yaml.Unmarshal(yamlFile, c)
 	if err != nil {
 		log.Fatalf("Unmarshal: %v", err)
 	}
@@ -58,12 +57,9 @@ func LoadResource(basePath, path string) Resource {
 }
 
 func loadModifier(basePath, path string) Modifier {
-	yamlFile, err := ioutil.ReadFile(basePath + path)
-	if err != nil {
-		log.Printf("yamlFile.Get err   #%v ", err)
-	}
+	yamlFile := common.LoadFile(basePath + path)
 	m := new(Modifier)
-	err = yaml.Unmarshal(yamlFile, m)
+	err := yaml.Unmarshal(yamlFile, m)
 	if err != nil {
 		log.Fatalf("Unmarshal: %v", err)
 	}
@@ -77,7 +73,7 @@ func (r *Resource) getModifierProduct() float64 {
 		if m.Group == "" {
 			mod *= m.Amount
 		} else {
-			// Groups percentages should be added relative (+15% + +20% = +35%      NOT: 115% + 120% = 235% )
+			// Groups percentages should be added relative: 1.15(+15%) + 1.2(+20%) = 1.35(+35%) | NOT: 235% )
 			groups[m.Group] += (m.Amount - 1)
 		}
 	}
@@ -110,4 +106,8 @@ func (r *Resource) Collect() float64 {
 	}
 	mod := r.getModifierProduct()
 	return sum * mod
+}
+
+func (r *Resource) GetStat() string {
+	return r.Name + ": " + fmt.Sprint(r.Stored)
 }

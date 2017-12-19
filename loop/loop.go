@@ -14,41 +14,25 @@ type loopConfig struct {
 	endDate   time.Time
 }
 
-func setupConfig() loopConfig {
-	return loopConfig{
-		startDate: time.Date(2005, 1, 17, 0, 0, 0, 0, time.UTC),
-		endDate:   time.Date(2008, 12, 20, 0, 0, 0, 0, time.UTC),
-	}
-}
-
-func triggerYM1(w *world.World) {
-	w.StartBeginMonthUpdate()
-}
-
-func triggerYM10(w *world.World) {
-	w.FinishBeginMonthpdate()
-}
-
 func StartLoop() {
 	reader := bufio.NewReader(os.Stdin)
-	lc := setupConfig()
 	w := world.Init()
-	fmt.Printf(w.GetStats(0))
-	reader.ReadString('\n')
-
-	for cur := lc.startDate; cur.Before(lc.endDate); cur = cur.AddDate(0, 0, 1) {
-		if cur.Day() == 1 {
-			triggerYM1(w)
-		}
-		if cur.Day() == 10 {
-			triggerYM10(w)
-		}
-
-		if cur.Month() == 1 && cur.Day() == 1 {
+	fmt.Printf(w.GetAllStats())
+	for w.CurDate = w.StartDate; w.CurDate.Before(w.EndDate); w.CurDate = w.CurDate.AddDate(0, 0, 1) {
+		if w.CurDate.Month() == 1 && w.CurDate.Day() == 1 {
 			fmt.Println("===== [[ Yearly Pass ]] =====")
+			fmt.Println(w.CurDate.Date())
 			fmt.Printf(w.GetAllStats())
+		}
+		if w.CurDate.Year()%100 == 0 {
 			reader.ReadString('\n')
 		}
+		if w.CurDate.Day() == 1 {
+			w.StartBeginMonthUpdate()
+		}
+		if w.CurDate.Day() == 10 {
+			w.FinishBeginMonthpdate()
+		}
+		time.Sleep(5 * time.Millisecond)
 	}
-	fmt.Printf(w.GetStats(0))
 }

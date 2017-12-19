@@ -8,7 +8,7 @@ Modifiers: # Multipliers of the summed value
     Group: "efficiency modifier" #optional, groups are summed up before multiplication
 ModifierPath: #additional modifiers (with name, amount and group)
    - "relative/path/file.yaml" 
-Max: 1.0 #should set to 0 if there is no limit (will be replaced with the MaxPath resouce Collect() value)
+Max: 1.0 # set to 0 if there is no limit (will be replaced with the Max Resouce's Collect() value)
 MaxPath: "resources/max_manpower.yaml" # the way of counting the maximum, the Collect() function is used + the flat value
 Keep: 1.0 # how much should it return to the "upstream" resource (top level resources should be 1.0, otherwise 0)
 Stored: 12500 # how much it start with

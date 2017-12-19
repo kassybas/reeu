@@ -10,4 +10,4 @@ Modifiers:
 ModifierPath:
   - "autonomy/stockholm.yaml"
 PartsPath:
-  - "../market_prices/iron.yaml"
+  - "../globals/market_prices/iron.yaml"

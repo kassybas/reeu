@@ -1,14 +1,17 @@
 package world
 
 import (
-	"fmt"
 	"path/filepath"
 	"sync"
+	"time"
 
 	"github.com/kassybas/reeu/models/country"
 )
 
 type World struct {
+	StartDate    time.Time
+	EndDate      time.Time
+	CurDate      time.Time
 	Countries    []country.Country
 	beginMonthWG sync.WaitGroup
 }
@@ -16,18 +19,14 @@ type World struct {
 // Init creates the world
 func Init() *World {
 	w := new(World)
+	w.StartDate = time.Date(1444, 1, 1, 0, 0, 0, 0, time.UTC)
+	w.EndDate = time.Date(2000, 12, 20, 0, 0, 0, 0, time.UTC)
 	paths, _ := filepath.Glob("data/*/country.yaml")
-	fmt.Println(paths)
 	w.Countries = make([]country.Country, len(paths))
 	for i, path := range paths {
 		w.Countries[i] = country.NewCountry(path)
 	}
 	return w
-}
-
-// GetStats gets some info from a country with a givne id
-func (w *World) GetStats(id int) string {
-	return w.Countries[id].GetStat()
 }
 
 func (w *World) GetAllStats() string {

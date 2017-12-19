@@ -24,4 +24,4 @@ ModifierPath:
   - "autonomy/malmo.yaml"
   - "../globals/buildings/workshop.yaml"
 PartsPath:
-  - "../market_prices/cloth.yaml"
+  - "../globals/market_prices/cloth.yaml"

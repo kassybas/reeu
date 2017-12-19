@@ -1,4 +1,4 @@
 Name: "Sweden"
-Resources:
-Money: "resources/money.yaml"
-Manpower: "resources/manpower.yaml"
+ResourcePaths:
+    - "resources/money.yaml"
+    - "resources/manpower.yaml"

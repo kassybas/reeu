@@ -1,4 +1,4 @@
-Name: "Sweeden :: Manpower"
+Name: "Sweden :: Manpower"
 Flat: 0.0
 Modifiers: []
 ModifierPath: []
@@ -7,5 +7,4 @@ PartsPath:
 Max: 1.0
 MaxPath: "resources/max_manpower.yaml"
 Keep: 1.0
-Stored: 12500
-#TODO: manpower recovery
+Stored: 1300
