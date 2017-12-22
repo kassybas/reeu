@@ -14,17 +14,18 @@ import (
 // Modifiers are multiplied with each other and with the sum
 // Flat is the value of the bottom resource. It should be non-zero only if other resources are done
 type Resource struct {
-	Name          string `yaml:"Name"`
-	Parts         []Resource
-	PartsPath     []string   `yaml:"PartsPath"`
-	Modifiers     []Modifier `yaml:"Modifiers"`
-	ModifiersPath []string   `yaml:"ModifierPath"`
-	Flat          float64    `yaml:"Flat"`
-	Keep          float64    `yaml:"Keep"`
-	Max           float64    `yaml:"Max"`
-	MaxPath       string     `yaml:"MaxPath"`
-	MaxResource   *Resource
-	Stored        float64 `yaml:"Stored"`
+	Name           string `yaml:"Name"`
+	Parts          []Resource
+	PartsPath      []string   `yaml:"PartsPath"`
+	Modifiers      []Modifier `yaml:"Modifiers"`
+	ModifiersPath  []string   `yaml:"ModifierPath"`
+	inModifierChan chan Modifier
+	Flat           float64 `yaml:"Flat"`
+	Keep           float64 `yaml:"Keep"`
+	Max            float64 `yaml:"Max"`
+	MaxPath        string  `yaml:"MaxPath"`
+	MaxResource    *Resource
+	Stored         float64 `yaml:"Stored"`
 }
 
 type Modifier struct {
@@ -110,4 +111,8 @@ func (r *Resource) Collect() float64 {
 
 func (r *Resource) GetStat() string {
 	return r.Name + ": " + fmt.Sprint(r.Stored)
+}
+
+func (r *Resource) AddModifier(mod Modifier) {
+	r.inModifierChan <- mod // TODO: ???????????
 }
